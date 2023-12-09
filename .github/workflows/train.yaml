@@ -22,3 +22,4 @@ jobs:
           git config --global user.email "hammadhabib80@gmail.com"
           git add .
           git commit -m "Appended Report to README.md"
+          git push origin main
