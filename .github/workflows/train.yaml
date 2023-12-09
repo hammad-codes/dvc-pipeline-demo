@@ -14,4 +14,5 @@ jobs:
           pip install -r requirements.txt 
           dvc repro
           git fetch --prune
-          dvc metrics > report.md
+          cat metrics > report.md
+
