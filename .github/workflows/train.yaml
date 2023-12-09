@@ -1,9 +1,5 @@
 name: DVC Tracking with Github Actions
-on:
-  push:
-    branches:
-      - main  # Adjust the branch name if needed
-
+on: [push]
 jobs:
   run:
     permissions: write-all
@@ -11,21 +7,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running_updates
-        env: 
+        env:
           GH_TOKEN: ${{ github.token }}
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           pip install -r requirements.txt 
           dvc repro
           git fetch --prune
-          
-          # Extract pull request number from commit information
-          PR_NUMBER=$(git log --format=%B -n 1 ${{ github.sha }} | grep -oP '(?<=\#)\d+')
-          
-          # Check if PR_NUMBER is not empty
-          if [ -n "$PR_NUMBER" ]; then
-            dvc metrics diff --md main > report.md
-            gh pr comment $PR_NUMBER -F report.md
-          else
-            echo "No pull request found for the commit."
-          fi
+
+          # Access the commit SHA using github.sha
+          COMMIT_SHA=${{ github.sha }}
+          echo "Commit SHA: $COMMIT_SHA" > report.md  # Write the commit SHA to the report.md file
+
+          # Append metrics.json content to report.md
+          cat metrics.json >> report.md
