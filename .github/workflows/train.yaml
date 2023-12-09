@@ -1,5 +1,9 @@
 name: DVC Tracking with Github Actions
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name if needed
+
 jobs:
   run:
     permissions: write-all
@@ -7,12 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running_updates
-        env:
+        env: 
           GH_TOKEN: ${{ github.token }}
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           pip install -r requirements.txt 
           dvc repro
           git fetch --prune
-          dvc metrics diff --md main > report.md
-          gh pr comment ${{github.event.pull_request.number}} -F report.md
+          
+          # Extract pull request number from commit information
+          PR_NUMBER=$(git log --format=%B -n 1 ${{ github.sha }} | grep -oP '(?<=\#)\d+')
+          
+          # Check if PR_NUMBER is not empty
+          if [ -n "$PR_NUMBER" ]; then
+            dvc metrics diff --md main > report.md
+            gh pr comment $PR_NUMBER -F report.md
+          else
+            echo "No pull request found for the commit."
+          fi
