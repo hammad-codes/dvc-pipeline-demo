@@ -42,8 +42,8 @@ stages:
     outs:
     - path: by_region.png
       hash: md5
-      md5: 259fb0babcb447398a664dbf3924aa1c
-      size: 7898
+      md5: e86eae41dbf2357035c7162828c366f2
+      size: 7900
     - path: metrics.json
       hash: md5
       md5: f4844c28505568f336c5f91db3f1beb3
