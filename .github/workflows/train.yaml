@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Running_updates
-        env: 
+        env:
           GH_TOKEN: ${{ github.token }}
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
@@ -15,5 +15,10 @@ jobs:
           dvc repro
           git fetch --prune
           dvc metrics diff --md main > report.md
-          gh pr comment ${{github.event.pull_request.number}} -F report.md
-          
+
+          cat report.md >> README.md
+
+          git config --global user.name "Hammad Habib"
+          git config --global user.email "hammadhabib80@gmail.com"
+          git add .
+          git commit -m "Appended Report to README.md"
