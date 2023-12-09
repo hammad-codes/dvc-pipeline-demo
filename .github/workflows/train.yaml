@@ -15,11 +15,4 @@ jobs:
           dvc repro
           git fetch --prune
           dvc metrics diff --md main > report.md
-
-          cat report.md >> README.md
-
-          git config --global user.name "Hammad Habib"
-          git config --global user.email "hammadhabib80@gmail.com"
-          git add .
-          git commit -m "Appended Report to README.md"
-          git push origin main
+          gh pr comment ${{github.event.pull_request.number}} -F report.md
