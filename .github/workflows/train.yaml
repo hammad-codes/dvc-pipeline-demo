@@ -14,10 +14,4 @@ jobs:
           pip install -r requirements.txt 
           dvc repro
           git fetch --prune
-
-          # Access the commit SHA using github.sha
-          COMMIT_SHA=${{ github.sha }}
-          echo "Commit SHA: $COMMIT_SHA" > report.md  # Write the commit SHA to the report.md file
-
-          # Append metrics.json content to report.md
-          cat metrics.json >> report.md
+          dvc metrics > report.md
