@@ -1,6 +1,5 @@
 # dvc-pipeline-demo
-| Path   | Metric   | main   | workspace   | Change   |
-|--------|----------|--------|-------------|----------|
+
 
 | Path         | Metric      | main   | workspace   | Change   |
 |--------------|-------------|--------|-------------|----------|
